@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "399654863151",
+    "firebase_url": "https://projectuas-40d78.firebaseio.com",
+    "project_id": "projectuas-40d78",
+    "storage_bucket": "projectuas-40d78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399654863151:android:f00106c819992279c6e1da",
+        "android_client_info": {
+          "package_name": "com.gmail.isnantobudi0.masak_kuy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "399654863151-3hma10gnp2l0hs296gbfre1qtbu4pkfg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiDFE-KUACXziUsfhnJYbhn6jWDWMwUD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "399654863151-3hma10gnp2l0hs296gbfre1qtbu4pkfg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
