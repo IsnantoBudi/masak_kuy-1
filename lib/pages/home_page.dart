@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:masak_kuy/pages/Tentang.dart';
+import 'recipe_details.dart';
 import 'package:masak_kuy/services/authentication.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:auto_size_text/auto_size_text.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.auth, this.userId, this.logoutCallback})
+  HomePage({Key key, this.auth, this.userId, this.logoutCallback, this.post})
       : super(key: key);
 
   final BaseAuth auth;
   final VoidCallback logoutCallback;
   final String userId;
+  final String post;
 
   @override
   State<StatefulWidget> createState() => new _HomePageState();
@@ -26,27 +28,25 @@ class _HomePageState extends State<HomePage> {
       print(e);
     }
   }
+
   @override
   Widget build(BuildContext context) {
+
+    final _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
+
     return new Scaffold(
-        appBar: new AppBar( title: new Center(child: new Text('Masak Kuy App')),
-          actions: <Widget>[],
-        ),
+        appBar: AppBar(title: const Text('Masak Kuy App')),
         drawer: Drawer(
-          // Add a ListView to the drawer. This ensures the user can scroll
-          // through the options in the drawer if there isn't enough vertical
-          // space to fit everything.
           child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
             children: <Widget>[
-              DrawerHeader(
-                child: Text('Welcome to Masak Kuy App'),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
+              UserAccountsDrawerHeader(
+                accountName: Text("Masak Kuy"),
+                accountEmail: Text("masakkuy@gmail.com"),
+                decoration: BoxDecoration(color: Colors.indigo),
               ),
               ListTile(
+                leading: new Icon(Icons.home),
                 title: Text('HOME'),
                 onTap: () {
                   // Update the state of the app
@@ -56,70 +56,81 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               ListTile(
+                leading: new Icon(Icons.info_outline),
                 title: Text('TENTANG'),
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder:(context) =>Tentang()),
+                    MaterialPageRoute(builder: (context) => Tentang()),
                   );
                 },
               ),
-              ListTile(
-                title: Text('LOGOUT'),
-                onTap: signOut
-
+              Divider(
+                height: 10.0,
+                color: Colors.black,
               ),
+              ListTile(
+                  trailing: new Icon(Icons.account_circle),
+                  title: Text('LOGOUT'),
+                  onTap: signOut),
             ],
           ),
         ),
-        body: StreamBuilder(
-          stream:Firestore.instance.collection('post').snapshots(),
-          builder:(context,snapshot){
-            if(!snapshot.hasData){
-              const Text('Loading');
-            }
-            else{
-              return ListView.builder(
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (context,index){
-                  DocumentSnapshot mypost=snapshot.data.documents[index];
-                  return Stack(
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 350.0,
-                        child:Padding(
-                          padding: EdgeInsets.only(top:8.0,bottom:8.0),
-                          child:Material(
-                            color: Colors.white,
-                            elevation : 14.0,
-                            shadowColor: Color(0x802196f3),
-                            child: Center(child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(children: <Widget>[
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height:200.0,
-                                  child: Image.network(
-                                    '${mypost['gambar']}',
-                                    fit :BoxFit.fill
-                                  ),
-                                ),
-                                SizedBox(height:10.0),
-                                Text('${mypost['nama']}',
-                                style:TextStyle( fontSize: 20.0,fontWeight: FontWeight.bold),
-                                ),
-                              ],),
-                            ),),
-                          ),
-                        ),
+        //menambahkan body dihomepage (lukas)
+        body: Container(
+          width: _width,
+          height: _height,
+          color: Colors.blue,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: _height * 0.10,
+                  ),
+                  Text(
+                    "Welcome",
+                    style: TextStyle(fontSize: 44, color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: _height * 0.10,
+                  ),
+                  AutoSizeText(
+                    "Let's start your cooking",
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 40,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(
+                    height: _height * 0.10,
+                  ),
+                  //fix raisedbutton dengan navigator ke recipedetails
+                  RaisedButton(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10.0,
+                            bottom: 10.0, left: 30.0, right: 30.0),
+
+                        child: Text("Get Started", style: TextStyle(color: Colors.blueAccent,
+                            fontSize: 28, fontWeight: FontWeight.w300),),
                       ),
-                    ],
-                  );}
-              );
-            }
-          }
+                      onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => RecipeDetails('post')),
+                        );
+                      }
+                  )
+                ],
+              ),
+            ),
+          ),
         )
-      );
+    );
   }
 }

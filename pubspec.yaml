@@ -13,6 +13,11 @@ dependencies:
   firebase_auth: ^0.14.0+5
   firebase_database: ^3.0.7
   cloud_firestore:
+  url_launcher: ^5.0.2
+  webview_flutter: ^0.1.1
+  flutter_webview_plugin: 0.3.0+2
+  auto_size_text: ^2.0.2
+
 
 dev_dependencies:
   flutter_test:
@@ -21,3 +26,5 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+  assets:
+    - assets/logo.png

@@ -93,12 +93,21 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         appBar: new AppBar(
           title: new Center(child: new Text('Masak Kuy App')),
         ),
-        body: Stack(
-          children: <Widget>[
-            _showForm(),
-            _showCircularProgress(),
-          ],
-        ));
+        //didalam body menambahkan gradiasi warna(lukas)
+        body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [Colors.red, Colors.blue]),
+            ),
+            child: Center(
+              child: Stack(
+                children: <Widget>[
+                  _showForm(),
+                  _showCircularProgress(),
+                ],
+              ),
+            )
+        )
+    );
   }
 
   Widget _showCircularProgress() {
@@ -178,7 +187,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
           radius: 48.0,
-          child: Image.asset('assets/flutter-icon.png'),
+          child: Image.asset('assets/logo.png'),
         ),
       ),
     );
